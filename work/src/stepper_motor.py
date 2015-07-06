@@ -77,20 +77,3 @@ class MotorController:
             self.time.sleep(t)
             count += 1
 
-
-from Tkinter import *
-import urllib2
-import json
-mc = MotorController(6, 13, 19, 26)
-response = urllib2.urlopen('http://192.168.10.79:3000/api/users')
-html = response.read()
-#print(html)
-
-json = json.loads(html)
-fat_rate = json[0]['fat_rate']
-print(fat_rate)
-spead = float(input())
-mc.rotate(fat_rate,spead)
-mc.GPIO.cleanup()
-
-
