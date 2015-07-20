@@ -10,7 +10,9 @@ if __name__ == '__main__':
 
     import urllib2
     import json
+    import RPi.GPIO as GPIO
     import stepper_motor
+    import LED
     import mysql.connector
 #    import MySQLdb
 
@@ -33,7 +35,11 @@ if __name__ == '__main__':
     mysql_cur.close()
     mysql_cnx.close()
 
-    mc = stepper_motor.MotorController(6, 13, 19, 26)
+    GPIO.setmode(GPIO.BCM)
+    led = LED.LEDController(GPIO, 17)
+    mc = stepper_motor.MotorController(GPIO, 6, 13, 19, 26)
+    fat_rate = 3
+    """
     response = urllib2.urlopen(url)
     html = response.read()
     #print(html)
@@ -41,7 +47,17 @@ if __name__ == '__main__':
     json = json.loads(html)
     fat_rate = json[0]['fat_rate']
     print(fat_rate)
+    """
+    g1 = led.pikapika(2, 0.2)
+    for g in g1:
+        print g
+
+    print 'input_rate: ',
+    fat_rate = int(input())
+    print 'input speed: ',
     spead = float(input())
+    led.switchOn()
     mc.rotate(fat_rate,spead)
+    led.switchOff()
     mc.GPIO.cleanup()
 
